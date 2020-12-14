@@ -9,6 +9,7 @@ public class PayrollException extends RuntimeException{
 
     public enum ExceptionTypes{
         EMPLOYEE_NOT_FOUND("Invalid Data.. Employee not found"),
+        EMPLOYEE_ALREADY_PRESENT("Employee Already Present"),
         OTHER_EXCEPTION("other exceptions");
         public String errorMessage;
 

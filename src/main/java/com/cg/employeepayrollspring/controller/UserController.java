@@ -22,32 +22,31 @@ public class UserController {
     EmployeePayrollService employeePayrollService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createUser(@RequestBody @Valid EmployeePayrollDto user, BindingResult bindingResult){
+    public ResponseEntity<ResponseDto> createUser(@RequestBody @Valid EmployeePayrollDto user){
         try{
-            if(bindingResult.hasErrors()){
-                return new ResponseEntity<ResponseDto>(new ResponseDto((bindingResult.getAllErrors().get(0).getDefaultMessage()),"404"),HttpStatus.BAD_REQUEST);
-            }
             EmployeePayrollDto employeePayrollDto = employeePayrollService.CreateUser(user);
 
-           return new ResponseEntity<ResponseDto> ( new ResponseDto("User created successfully",employeePayrollDto),HttpStatus.CREATED);
+           return new ResponseEntity<ResponseDto> ( new ResponseDto("User created successfully","200",employeePayrollDto),HttpStatus.CREATED);
         } catch (UserNotFound e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new PayrollException(PayrollException.ExceptionTypes.EMPLOYEE_NOT_FOUND);
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<EmployeePayrollDto> updateUser(@RequestBody EmployeePayrollDto user){
+    public ResponseEntity<ResponseDto> updateUser(@RequestBody @Valid EmployeePayrollDto user, BindingResult bindingResult){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(employeePayrollService.UpdateUser(user));
+            EmployeePayrollDto employeePayrollDto = employeePayrollService.UpdateUser(user);
+            return new ResponseEntity<ResponseDto> ( new ResponseDto("User updated successfully","200",employeePayrollDto),HttpStatus.CREATED);
         } catch (UserNotFound e){
             throw new PayrollException(PayrollException.ExceptionTypes.EMPLOYEE_NOT_FOUND);
         }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<EmployeePayrollDto> deleteUser(@PathVariable("id")Long id){
+    public ResponseEntity<ResponseDto> deleteUser(@PathVariable("id")Long id){
         try{
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(employeePayrollService.deleteUser(id));
+            EmployeePayrollDto employeePayrollDto = employeePayrollService.deleteUser(id);
+            return new ResponseEntity<ResponseDto>(new ResponseDto("Employee Deleted Successfully","200",employeePayrollDto),HttpStatus.CREATED);
         } catch (UserNotFound e){
             throw new PayrollException(PayrollException.ExceptionTypes.EMPLOYEE_NOT_FOUND);
         }

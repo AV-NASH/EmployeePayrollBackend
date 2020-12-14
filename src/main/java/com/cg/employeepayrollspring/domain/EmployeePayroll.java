@@ -1,11 +1,14 @@
 package com.cg.employeepayrollspring.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Data
+@AllArgsConstructor
 @Entity
 public class EmployeePayroll implements Serializable {
 
@@ -16,40 +19,21 @@ public class EmployeePayroll implements Serializable {
     private Long id;
 
     private String name;
-
+    private String gender;
+    private String department;
     private String salary;
+    private Date startDate;
 
-    public EmployeePayroll(){
+
+    public EmployeePayroll() {
 
     }
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public EmployeePayroll(String name, String gender, String department, String salary, Date startDate) {
         this.name = name;
-    }
-
-    public String getSalary() {
-        return salary;
-    }
-
-    public void setSalary(String salary) {
+        this.gender = gender;
+        this.department = department;
         this.salary = salary;
-    }
-
-    public EmployeePayroll(String name, String salary) {
-        this.name = name;
-        this.salary = salary;
+        this.startDate = startDate;
     }
 }

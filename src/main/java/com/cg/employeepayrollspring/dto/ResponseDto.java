@@ -1,28 +1,14 @@
 package com.cg.employeepayrollspring.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class ResponseDto {
     private String message;
+    private String statusCode;
     private Object data;
 
-    public ResponseDto(String message, Object data) {
-        this.message = message;
-        this.data = data;
-    }
 
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
 }

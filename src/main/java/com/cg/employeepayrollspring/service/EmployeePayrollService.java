@@ -19,8 +19,10 @@ public class EmployeePayrollService {
     private EmployeePayrollRepository employeePayrollRepository;
 
     public EmployeePayrollDto CreateUser(EmployeePayrollDto employeePayrollDto){
-        if(Objects.nonNull(employeePayrollDto.getName()) && Objects.nonNull(employeePayrollDto.getSalary())) {
-            EmployeePayroll employeePayroll = new EmployeePayroll(employeePayrollDto.getName(),employeePayrollDto.getSalary());
+        if(Objects.nonNull(employeePayrollDto.getName()) && Objects.nonNull(employeePayrollDto.getSalary())&&
+                Objects.nonNull(employeePayrollDto.getDepartment())&&Objects.nonNull(employeePayrollDto.getStartDate())&&
+                Objects.nonNull(employeePayrollDto.getGender())) {
+            EmployeePayroll employeePayroll = new EmployeePayroll(employeePayrollDto.getName(),employeePayrollDto.getGender(),employeePayrollDto.getDepartment(),employeePayrollDto.getSalary(),employeePayrollDto.getStartDate());
             return new EmployeePayrollDto(employeePayrollRepository.save(employeePayroll));
         }
 
@@ -33,8 +35,18 @@ public class EmployeePayrollService {
             if(Objects.nonNull(employeePayrollDto.getName())){
                 employeePayroll.setName(employeePayrollDto.getName());
             }
+            if(Objects.nonNull(employeePayroll.getGender())){
+                employeePayroll.setGender(employeePayroll.getGender());
+            }
+            if(Objects.nonNull(employeePayroll.getDepartment())){
+                employeePayroll.setDepartment(employeePayroll.getDepartment());
+            }
             if(Objects.nonNull(employeePayroll.getSalary())){
                 employeePayroll.setSalary(employeePayroll.getSalary());
+            }
+
+            if(Objects.nonNull(employeePayroll.getStartDate())){
+                employeePayroll.setStartDate(employeePayroll.getStartDate());
             }
            return new EmployeePayrollDto(employeePayrollRepository.save(employeePayroll));
         }).orElseThrow(()-> new UserNotFound("UserNotFound"));

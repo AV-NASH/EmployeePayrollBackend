@@ -9,7 +9,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-
+import java.util.Date;
+@Data
+@AllArgsConstructor
 public class EmployeePayrollDto {
 
     private Long id;
@@ -17,40 +19,19 @@ public class EmployeePayrollDto {
     @NotEmpty(message = "Please enter valid name")
     @Pattern(regexp = "^[A-Za-z]{3,}$", message = "Please enter valid name")
     private String name;
+    private String gender;
+    private String department;
     @Min(value = 500,message = "salary cant be less than 500")
     private String salary;
-
-    public EmployeePayrollDto(){
-
-    }
+    private Date startDate;
 
     public EmployeePayrollDto(EmployeePayroll user){
         this.id = user.getId();
         this.name = user.getName();
         this.salary = user.getSalary();
+        this.gender = user.getGender();
+        this.department = user.getDepartment();
+        this.startDate = user.getStartDate();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSalary() {
-        return salary;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setSalary(String salary) {
-        this.salary = salary;
-    }
 }
