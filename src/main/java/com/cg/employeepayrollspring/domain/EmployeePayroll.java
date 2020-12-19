@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,20 +21,27 @@ public class EmployeePayroll implements Serializable {
 
     private String name;
     private String gender;
-    private String department;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "employee_department" , joinColumns=@JoinColumn(name="id"))
+    @Column(name = "department")
+    private List<String> department;
     private String salary;
-    private Date startDate;
+    private String startDate;
+    private String notes;
+    private String profilepic;
 
 
     public EmployeePayroll() {
 
     }
 
-    public EmployeePayroll(String name, String gender, String department, String salary, Date startDate) {
+    public EmployeePayroll(String name, String gender, List<String> department, String salary, String startDate,String notes, String profilepic) {
         this.name = name;
         this.gender = gender;
         this.department = department;
         this.salary = salary;
         this.startDate = startDate;
+        this.notes=notes;
+        this.profilepic=profilepic;
     }
 }

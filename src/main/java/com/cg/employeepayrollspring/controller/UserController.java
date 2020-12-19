@@ -1,5 +1,6 @@
 package com.cg.employeepayrollspring.controller;
 
+import com.cg.employeepayrollspring.domain.EmployeePayroll;
 import com.cg.employeepayrollspring.dto.EmployeePayrollDto;
 import com.cg.employeepayrollspring.dto.ResponseDto;
 import com.cg.employeepayrollspring.exceptions.PayrollException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(allowedHeaders = "*", origins = "*")
@@ -33,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateUser(@RequestBody @Valid EmployeePayrollDto user, BindingResult bindingResult){
+    public ResponseEntity<ResponseDto> updateUser(@RequestBody @Valid EmployeePayrollDto user){
         try{
             EmployeePayrollDto employeePayrollDto = employeePayrollService.UpdateUser(user);
             return new ResponseEntity<ResponseDto> ( new ResponseDto("User updated successfully","200",employeePayrollDto),HttpStatus.CREATED);
@@ -56,6 +58,15 @@ public class UserController {
     public ResponseEntity<List<EmployeePayrollDto>> getAllUser(){
         try{
             return ResponseEntity.status(HttpStatus.OK).body(employeePayrollService.getAllUser());
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/getbyid")
+    public ResponseEntity<Optional<EmployeePayrollDto>> getById(@RequestParam long id){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(employeePayrollService.getById(id));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
